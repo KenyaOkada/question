@@ -1,0 +1,21 @@
+<h1><%= @questionary.title %>の集計</h1>
+
+<p>
+  集計結果が一つしか無いものは問題が存在しません。
+  集計の一番最初のものは空送信（無選択)の数を示します。
+  それ以降は一つ目の選択肢の数、二つ目の選択肢。。。と続きます。
+</p>
+
+<table class="table table-bordered">
+  <tr><th>質問ID</th><th>集計</th></tr>
+  <% @calc.each do |ky, vl| %>
+    <tr><td><%= ky %></td><td>
+  　<table><tr>
+    <% for v in vl %>
+  　　  <td><%= v.to_i %></td>
+    <% end %>
+  　</tr>
+　　</table>
+　　</td></tr>
+  <% end %>
+</table>

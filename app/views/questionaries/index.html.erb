@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>アンケート一覧</h1>
+<%= link_to '新しいアンケートの作成', new_questionary_path %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>タイトル</th>
+      <th>期間</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% dx = 60 * 60 * 9 %>
+    <% @questionaries.each do |questionary| %>
+      <tr>
+        <td><%= questionary.title %></td>
+
+
+
+        <td><%=  "あと、約" + ((questionary.deadline - DateTime.now - dx) / (60*60*24)).to_i.to_s + "日" %>
+        <% if questionary.deadline  - dx > DateTime.now then %>
+        <span class="not_finished">受付中</span>
+        </td>
+        <td><%= link_to 'このアンケートを回答する', questionary %></td>
+        <% else %>
+        <span class="finished">終了</span>
+      </td>
+      <td></td>
+        <% end %>
+
+      </tr>
+    <% end %>
+
+
+  </tbody>
+</table>
+
+<br>
