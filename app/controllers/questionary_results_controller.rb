@@ -65,7 +65,7 @@ class QuestionaryResultsController < ApplicationController
 
   def calc
     @questionary = Questionary.find params[:id]
-    results = QuestionaryResult.where("questionary_id = ?",params[:id])
+    results = QuestionaryResult.where(questionary_id: params[:id])
     @calc = {}
     results.each do |result|
       data = result.result.split ","
@@ -80,6 +80,19 @@ class QuestionaryResultsController < ApplicationController
           @calc[ky][vl] = @calc[ky][vl] == nil ? 1 : @calc[ky][vl].to_i + 1
         end
       end
+    end
+  end
+
+  def download
+    result = CSV.generate do |csv|
+      csv << ['hoge']
+    end
+
+    respond_to do |format|
+      format.csv do
+      send_data render_to_string, filename: "question.csv", type: :csv
+    end
+
     end
   end
 
