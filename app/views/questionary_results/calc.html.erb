@@ -7,7 +7,6 @@
 </p>
 
 <%= link_to "CSV出力", download_path(format: 'csv') %>
-<%= link_to "csv出力",questionary_results_path(format: :csv) %>
 <table class="table table-bordered">
   <tr><th>質問ID</th><th>集計</th></tr>
   <% @calc.each do |ky, vl| %>
