@@ -85,8 +85,26 @@ class QuestionaryResultsController < ApplicationController
   end
 
   def download
+    results = QuestionaryResult.where(questionary_id: params[:id])
+    @calc = {}
+    results.each do |result|
+      data = result.result.split ","
+      data.each do |value|
+        keyval = value.split ":"
+        ky = keyval[0].to_s
+        vl = keyval[1].to_i
+        if ky != "question_id" then
+          if @calc[ky] == nil then
+            @calc[ky] = []
+          end
+          @calc[ky][vl] = @calc[ky][vl].blank? ? 1 : @calc[ky][vl].to_i + 1
+        end
+      end
+    end
     result = CSV.generate do |csv|
-      csv << ['hoge']
+      @calc.each do |ky, vl|
+        csv << [ky, vl.map(&:to_i).join]
+      end
     end
 
     respond_to do |format|
