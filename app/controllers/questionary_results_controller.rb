@@ -1,4 +1,5 @@
 class QuestionaryResultsController < ApplicationController
+  require 'csv'
   before_action :set_questionary_result, only: [:show, :edit, :update, :destroy]
 
   # GET /questionary_results
@@ -90,7 +91,7 @@ class QuestionaryResultsController < ApplicationController
 
     respond_to do |format|
       format.csv do
-      send_data render_to_string, filename: "question.csv", type: :csv
+      send_data result, filename: "question.csv", type: 'text/csv; charset=shift_jis'
     end
 
     end
