@@ -71,6 +71,6 @@ class QuestionaryItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def questionary_item_params
-      params.require(:questionary_item).permit(:content, :questionary_id)
+      params.require(:questionary_item).permit(:content, :questionary_id, :multiple)
     end
 end

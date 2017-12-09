@@ -12,7 +12,7 @@ class QuestionaryResultsController < ApplicationController
   # GET /questionary_results/1.json
   def show
     @questionary = Questionary.find params[:id]
-    @questionary_results = QuestionaryResult.where("questionary_id = ?",params[:id])
+    @questionary_items= @questionary.questionary_item
   end
 
   # GET /questionary_results/new
@@ -64,55 +64,30 @@ class QuestionaryResultsController < ApplicationController
     end
   end
 
-  def calc
-    @questionary = Questionary.find params[:id]
-    results = QuestionaryResult.where(questionary_id: params[:id])
-    @calc = {}
-    results.each do |result|
-      data = result.result.split ","
-      data.each do |value|
-        keyval = value.split ":"
-        ky = keyval[0].to_s
-        vl = keyval[1].to_i
-        if ky != "question_id" then
-          if @calc[ky] == nil then
-             @calc[ky] = []
-          end
-          @calc[ky][vl] = @calc[ky][vl] == nil ? 1 : @calc[ky][vl].to_i + 1
-        end
-      end
-    end
-  end
-
   def download
-    results = QuestionaryResult.where(questionary_id: params[:id])
-    @calc = {}
-    results.each do |result|
-      data = result.result.split ","
-      data.each do |value|
-        keyval = value.split ":"
-        ky = keyval[0].to_s
-        vl = keyval[1].to_i
-        if ky != "question_id" then
-          if @calc[ky] == nil then
-            @calc[ky] = []
-          end
-          @calc[ky][vl] = @calc[ky][vl].blank? ? 1 : @calc[ky][vl].to_i + 1
+    questionary = Questionary.find params[:id]
+    questionary_items= questionary.questionary_item
+
+    csv_result = CSV.generate do |csv|
+      csv << [questionary.title]
+      csv << ['質問', '集計']
+      questionary_items.each do |item|
+        aggregate = ''
+        results = item.aggregate
+        results.each do |key, val|
+          content = QuestionaryChoice.find(key).content
+          aggregate += content + val.to_s + "\n"
         end
-      end
-    end
-    result = CSV.generate do |csv|
-      @calc.each do |ky, vl|
-        csv << [ky, vl.map(&:to_i).join]
+        csv << [item.content, aggregate]
       end
     end
 
     respond_to do |format|
       format.csv do
-      send_data result, filename: "question.csv", type: 'text/csv; charset=shift_jis'
+        send_data csv_result, filename: "question.csv", type: 'text/csv; charset=shift_jis'
+      end
     end
 
-    end
   end
 
   private

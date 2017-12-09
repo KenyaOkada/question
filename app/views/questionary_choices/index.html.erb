@@ -16,7 +16,6 @@
     <% @questionary_choices.each do |questionary_choice| %>
       <tr>
         <td><%= questionary_choice.content %></td>
-        <td><%= questionary_choice.value %></td>
         <td><%= questionary_choice.questionary_item_id %></td>
         <td><%= link_to 'Show', questionary_choice %></td>
         <td><%= link_to 'Edit', edit_questionary_choice_path(questionary_choice) %></td>

@@ -13,20 +13,10 @@ class QuestionariesController < ApplicationController
   end
 
   def sendform
-    id = params[:id]
-    result ="question_id:" + id
-    for i in 1..100
-      str = "r" + i.to_s
-      if params[str] == nil then
-        result += "," + str + ":o"
-      else
-        result += "," + str + ":" + params[str]
-      end
+    params['choice'].each do |key, val|
+      QuestionaryResult.create!(questionary_item_id: key, result: val)
     end
-    obj = QuestionaryResult.new
-    obj.questionary_id = id
-    obj.result = result
-    obj.save!
+
     redirect_to "/questionaries"
   end
 

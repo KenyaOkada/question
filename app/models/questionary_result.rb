@@ -1,5 +1,4 @@
 class QuestionaryResult < ApplicationRecord
-  belongs_to :questionary
+  belongs_to :questionary_item
 
-  validates :result, presence: {message:"は必須項目です。"}
 end

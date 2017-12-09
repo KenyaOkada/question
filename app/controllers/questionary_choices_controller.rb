@@ -29,7 +29,7 @@ class QuestionaryChoicesController < ApplicationController
     @questionary_choice = QuestionaryChoice.new(questionary_choice_params)
 
     respond_to do |format|
-      if @questionary_choice.save
+      if @questionary_choice.save!
         format.html { redirect_to "/questionary_choices/new/" + @questionary_choice.questionary_item_id.to_s }
         format.json { render :show, status: :created, location: @questionary_choice }
       else
