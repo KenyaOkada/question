@@ -29,7 +29,7 @@
             <label for="<%= count_items.to_s + "_" + count_choices.to_s %>">
               <%= choice.content %>
             </label>
-            <%= text_field_tag "choice[#{item.id}]" %>
+            <%= text_field_tag "choice_text[#{item.id}]" %>
           <% else %>
             <% if item.multiple %>
               <%= check_box_tag "choice[#{item.id}][]", choice.id, false, { multiple: true } %>
@@ -48,3 +48,18 @@
 </div>
 
 <%= link_to 'Back', questionaries_path %>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script>
+  var number;
+  $(function(){
+    $('input').click(function(){
+      if($(this).val() == number) {
+        $(this).prop('checked', false);
+        number = 0;
+      } else {
+        number = $(this).val();
+      }
+    });
+  });
+</script>

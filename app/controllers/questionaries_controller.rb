@@ -13,14 +13,12 @@ class QuestionariesController < ApplicationController
   end
 
   def sendform
-    params['choice'].each do |key, val|
-      if val.is_a? String
-        QuestionaryResult.create!(questionary_item_id: key, input_result: val)
-      else
-        QuestionaryResult.create!(questionary_item_id: key, result: val)
-      end
+    params['choice']&.each do |key, val|
+      QuestionaryResult.create!(questionary_item_id: key, result: val)
     end
-
+    params['choice_text']&.each do |key, val|
+      QuestionaryResult.create!(questionary_item_id: key, input_result: val) if val.present?
+    end
     redirect_to "/questionaries"
   end
 
