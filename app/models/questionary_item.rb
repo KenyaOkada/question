@@ -10,7 +10,7 @@ class QuestionaryItem < ApplicationRecord
     self.questionary_choice.each do |choice|
       results[choice.id] = 0 unless choice.input_field
     end
-    self.questionary_result.pluck(:result).compact.each do |result|
+    self.questionary_result.&pluck(:result).compact.each do |result|
       if self.multiple?
         multiple_results = JSON.parse result
         multiple_results.each do |multiple_result|
