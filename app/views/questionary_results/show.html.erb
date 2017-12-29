@@ -15,6 +15,11 @@
               <td><%= QuestionaryChoice.find(key).content %>:<%= val %></td>
             </tr>
           <% end %>
+          <% QuestionaryResult.where(questionary_item_id: item.id, result: nil).each do |result| %>
+            <tr>
+              <td><%= result.input_result %></td>
+            </tr>
+          <% end %>
         </table>
       </td>
     </tr>

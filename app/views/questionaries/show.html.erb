@@ -25,14 +25,21 @@
       <% item.questionary_choice.each do |choice| %>
         <% count_choices += 1 %>
         <div class="choice">
-          <% if item.multiple %>
-            <%= check_box_tag "choice[#{item.id}][]", choice.id, false, { multiple: true } %>
+          <% if choice.input_field %>
+            <label for="<%= count_items.to_s + "_" + count_choices.to_s %>">
+              <%= choice.content %>
+            </label>
+            <%= text_field_tag "choice[#{item.id}]" %>
           <% else %>
-            <%= radio_button 'choice', item.id, choice.id %>
+            <% if item.multiple %>
+              <%= check_box_tag "choice[#{item.id}][]", choice.id, false, { multiple: true } %>
+            <% else %>
+              <%= radio_button 'choice', item.id, choice.id %>
+            <% end %>
+            <label for="<%= count_items.to_s + "_" + count_choices.to_s %>">
+              <%= choice.content %>
+            </label>
           <% end %>
-          <label for="<%= count_items.to_s + "_" + count_choices.to_s %>">
-            <%= choice.content %>
-          </label>
         </div>
       <% end %>
     <hr>

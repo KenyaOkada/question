@@ -3,6 +3,7 @@ class CreateQuestionaryResults < ActiveRecord::Migration[5.1]
     create_table :questionary_results do |t|
       t.integer :questionary_item_id
       t.text :result, array: true
+      t.text :input_result
 
       t.timestamps
     end
