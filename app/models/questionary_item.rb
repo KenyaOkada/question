@@ -13,11 +13,12 @@ class QuestionaryItem < ApplicationRecord
     self.questionary_result&.pluck(:result).compact.each do |result|
       if self.multiple?
         # multiple_results = JSON.parse result
-        multiple_results.each do |multiple_result|
+        result.each do |multiple_result|
           results[multiple_result.to_i] = results[multiple_result.to_i] + 1
         end
       else
-        results[result.to_i] = results[result.to_i] + 1
+        r = result.flatten!.first
+        results[r.to_i] = results[r.to_i] + 1
       end
     end
     results
