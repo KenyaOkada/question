@@ -17,7 +17,7 @@ class QuestionaryItem < ApplicationRecord
           results[multiple_result.to_i] = results[multiple_result.to_i] + 1
         end
       else
-        r = result.flatten!&.first
+        r = result.flatten&.first
         next if r.blank?
         results[r.to_i] = results[r.to_i] + 1
       end
