@@ -14,7 +14,7 @@ class QuestionariesController < ApplicationController
 
   def sendform
     params['choice']&.each do |key, val|
-      QuestionaryResult.create!(questionary_item_id: key, result: val)
+      QuestionaryResult.create!(questionary_item_id: key, result: [val])
     end
     params['choice_text']&.each do |key, val|
       QuestionaryResult.create!(questionary_item_id: key, input_result: val) if val.present?
