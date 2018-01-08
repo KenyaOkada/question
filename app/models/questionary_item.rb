@@ -11,16 +11,7 @@ class QuestionaryItem < ApplicationRecord
       results[choice.id] = 0 unless choice.input_field
     end
     self.questionary_result&.pluck(:result).flatten.compact.each do |result|
-      if self.multiple?
-        # multiple_results = JSON.parse result
-        result.each do |multiple_result|
-          results[multiple_result.to_i] = results[multiple_result.to_i] + 1
-        end
-      else
-        r = result.flatten&.first
-        next if r.blank?
-        results[r.to_i] = results[r.to_i] + 1
-      end
+      results[result.to_i] = results[result.to_i] + 1
     end
     results
   end
